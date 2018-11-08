@@ -10,8 +10,6 @@ $(function () {
 
 	list.getListItemEntityTypeFullName().then(function (res) {
 
-		var listTypeName = res.d.ListItemEntityTypeFullName;
-
 		UpdateFormDigest(_spPageContextInfo.webServerRelativeUrl, _spFormDigestRefreshInterval);
 
 		list.deleteListItem(7, jQuery("#__REQUESTDIGEST").val()).then(function (res) {
