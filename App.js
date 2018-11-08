@@ -14,18 +14,7 @@ $(function () {
 
 		UpdateFormDigest(_spPageContextInfo.webServerRelativeUrl, _spFormDigestRefreshInterval);
 
-		var user = {
-			"__metadata": { type: listTypeName },
-			"Title": "Malith",
-			"Role": "Admin",
-			"Description": "Hello World",
-			"Email": "malith@99x.lk",
-			"UserID": 4
-		}
-
-		var data = JSON.stringify(user);
-
-		list.createListItem(data, jQuery("#__REQUESTDIGEST").val()).then(function (res) {
+		list.deleteListItem(7, jQuery("#__REQUESTDIGEST").val()).then(function (res) {
 
 			console.log(res);
 		}, function (err) {

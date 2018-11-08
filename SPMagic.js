@@ -261,6 +261,24 @@ SPMagic.ListManager = function (appUrl, hostUrl, ListName) {
 		return dfd.promise();
 	}
 
+	function deleteListItem(id, formDigest, callback) {
+		var url = appUrl + listUrl + "/Items(" + id + ")";
+		url = SPMagic.URLGenerator(url, hostUrl);
+
+		return jQuery.ajax({
+			url: url,
+			type: "POST",
+			headers: {
+				Accept: "application/json;odata=verbose",
+				"Content-Type": "application/json;odata=verbose",
+				"X-RequestDigest": formDigest,
+				"IF-MATCH": "*",
+				"X-Http-Method": "DELETE"
+			}
+		});
+		
+	}
+
 	function failHandler(jqXHR, textStatus, errorThrown) {
 		var response = "";
 		try {
@@ -281,6 +299,7 @@ SPMagic.ListManager = function (appUrl, hostUrl, ListName) {
 		createListItem: createListItem,
 		getListItemEntityTypeFullName: getListItemEntityTypeFullName,
 		getNextListItemId: getNextListItemId,
+		deleteListItem: deleteListItem,
 		failHandler: failHandler
 
 	}
