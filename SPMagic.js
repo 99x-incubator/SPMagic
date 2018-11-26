@@ -178,6 +178,25 @@ SPMagic.ListManager = function (appUrl, hostUrl, ListName) {
 
 	}
 
+	function getListItemFilterwithContains(value, column, orderby, callback) {
+
+		if (!orderby) orderby = "Id";
+
+		var url = appUrl + listUrl + "/Items?$select=*&$filter=substringof('" + value + "'," + column +")&$orderby=" + orderby;
+		url = SPMagic.URLGenerator(url, hostUrl);
+
+		return jQuery.ajax({
+			url: url,
+			type: "GET",
+			dataType: "json",
+			headers: {
+				Accept: "application/json;odata=verbose"
+			}
+		});
+
+	}
+
+
 	function getAllListItems(orderby, top, callback) {
 		if (!orderby) orderby = "Id";
 		if (!top) top = 15;
@@ -261,6 +280,24 @@ SPMagic.ListManager = function (appUrl, hostUrl, ListName) {
 		return dfd.promise();
 	}
 
+	function deleteListItem(id, formDigest, callback) {
+		var url = appUrl + listUrl + "/Items(" + id + ")";
+		url = SPMagic.URLGenerator(url, hostUrl);
+
+		return jQuery.ajax({
+			url: url,
+			type: "POST",
+			headers: {
+				Accept: "application/json;odata=verbose",
+				"Content-Type": "application/json;odata=verbose",
+				"X-RequestDigest": formDigest,
+				"IF-MATCH": "*",
+				"X-Http-Method": "DELETE"
+			}
+		});
+		
+	}
+
 	function failHandler(jqXHR, textStatus, errorThrown) {
 		var response = "";
 		try {
@@ -281,6 +318,8 @@ SPMagic.ListManager = function (appUrl, hostUrl, ListName) {
 		createListItem: createListItem,
 		getListItemEntityTypeFullName: getListItemEntityTypeFullName,
 		getNextListItemId: getNextListItemId,
+		deleteListItem: deleteListItem,
+		getListItemFilterwithContains: getListItemFilterwithContains,
 		failHandler: failHandler
 
 	}
